@@ -2,6 +2,7 @@ const primaryTheme = {
     colors: {
         primary: '#006633',
         secondary: '#003366',
+        warning: "#ffc033",
         black: '#000000',
         white: '#FFFFFF',
         gray: '#cccccc',
@@ -9,11 +10,12 @@ const primaryTheme = {
         grayDark: '#333333'
     },
     fontSize: {
-        xs: "10px",
-        sm: "12px",
-        md: "14px",
-        lg: "16px",
-        hg: "18px"
+        xs: "14px",
+        sm: "16px",
+        md: "20px",
+        lg: "25px",
+        hg: "40px",
+        hhg: "60px"
     },
     spacing: {
         none: '0',
@@ -35,6 +37,14 @@ const primaryTheme = {
         middle: '50%',
         full: '100%'
     },
+    doubleSpacing: {
+        xs: "2px 5px",
+        sm: "3px 10px",
+        md: "5px 12px",
+        lg: "8px 16px",
+        xg: "10px 20px",
+        hg: "20px 40px"
+    },
     rounded: {
         none: '0',
         xs: '2px',
@@ -44,6 +54,6 @@ const primaryTheme = {
     }
 }
 
-export default {
+export {
     primaryTheme
 }

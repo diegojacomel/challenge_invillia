@@ -3,32 +3,70 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+/** Router */
+import { Link } from 'react-router-dom';
+
+/** Components */
+import Image from '../../components/Image/Image';
+import Title from '../../components/Title/Title';
+import Button from '../../components/Button/Button';
+
+/** Images */
+import image from '../../images/image';
+
 /** Types */
 import { FETCH_PEOPLE } from '../../redux/people/types';
 
 const Wrapper = styled.div`
-    display: block;
-    text-align: left;
+    text-align: center;
+`
+
+const Spacing = styled.div`
+    margin-top: ${props => props.theme.spacing.lg};
 `
 
 class Home extends Component {
     state = {};
 
-    componentDidMount() {
+    fetchPeople = () => {
         const { props: { dispatch } } = this;
 
         dispatch({
             type: FETCH_PEOPLE.REQUEST
         })
     }
-    
+
     render() {
         const { props: { peopleReducer } } = this;
         console.log(peopleReducer)
 
         return (
             <Wrapper>
-                Home
+                <Image
+                    src={image.darthVader}
+                    alt="Star Wars Game"
+                    title="Star Wars Game"
+                    size="420px"
+                    margin="50px 0 0"
+                />
+                <Title
+                    color="grayDark"
+                    fontSize="hhg"
+                    alignCenter={true}
+                >
+                    StarQuiz!
+                </Title>
+                <Spacing>
+                    <Link to="/game">
+                        <Button
+                            color="warning"
+                            padding="hg"
+                            bold={true}
+                        >
+                            JOGAR!
+                        </Button>
+                    </Link>
+                </Spacing>
             </Wrapper>
         )
     }

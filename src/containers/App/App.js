@@ -1,23 +1,24 @@
 /** Modules */
 import React, { Component } from 'react';
+import { ThemeProvider } from 'styled-components';
 
-/** Containers */
-import './App.css';
+/** Theme */
+import { primaryTheme } from '../../styles/theme';
 
-// Router
+/** Router */
 import MyRouter from '../../router/router';
 import { HashRouter } from 'react-router-dom';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <HashRouter>
-            <MyRouter />
-        </HashRouter>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <ThemeProvider theme={primaryTheme}>
+                <HashRouter>
+                    <MyRouter />
+                </HashRouter>
+            </ThemeProvider>
+        );
+    }
 }
 
 export default App;

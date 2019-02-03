@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Image Render correctly 1`] = `
+<figure
+  className="sc-bdVaJa jbejMB"
+  size="100%"
+>
+  <img
+    alt="alt"
+    className="sc-bwzfXH hgonml"
+    src="#"
+    title="title"
+  />
+</figure>
+`;

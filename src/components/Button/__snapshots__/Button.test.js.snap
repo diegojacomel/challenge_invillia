@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button Render correctly 1`] = `
+<button
+  className="sc-bdVaJa iABBlL"
+  color="primary"
+  fontSize="md"
+  onClick={[Function]}
+>
+  Text button
+</button>
+`;
