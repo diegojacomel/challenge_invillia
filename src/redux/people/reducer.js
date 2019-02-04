@@ -3,6 +3,7 @@ import {
 } from './types';
 
 const INITIAL_STATE = {
+    allPeople: [],
     people: [],
     error: ''
 }
@@ -17,8 +18,14 @@ const peopleReducer = (state = INITIAL_STATE, action) => {
             }
 
         case FETCH_PEOPLE.SUCCESS:
+
+
             return {
                 ...state,
+                allPeople: [
+                    ...state.allPeople,
+                    ...action.people.data.results
+                ],
                 people: action.people,
                 error: ''
             }
@@ -26,6 +33,7 @@ const peopleReducer = (state = INITIAL_STATE, action) => {
         case FETCH_PEOPLE.FAILURE:
             return {
                 ...state,
+                allPeople: [],
                 people: [],
                 error: action.peopleError
             }
@@ -33,6 +41,7 @@ const peopleReducer = (state = INITIAL_STATE, action) => {
         case FETCH_PEOPLE.RESET:
             return {
                 ...state,
+                allPeople: [],
                 people: [],
                 error: ''
             }

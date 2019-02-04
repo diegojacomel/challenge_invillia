@@ -152,9 +152,10 @@ class Game extends Component {
         })
     }
 
-    sumScore = (results) => {
-        const { state, props: { typedReducer } } = this;
+    sumScore = () => {
+        const { state, props: { typedReducer, peopleReducer } } = this;
         const typedReduc = typedReducer.typed;
+        const results = peopleReducer && peopleReducer.allPeople;
         let arr = [];
         let score = 0;
 
@@ -199,7 +200,7 @@ class Game extends Component {
                             StarQuiz!
                         </Title>
                     </TitleWrapper>
-                    <Timer endTime={() => this.sumScore(results)} />
+                    <Timer endTime={() => this.sumScore()} />
                 </HeaderWrapper>
                 <CardWrapper>
                     {!!results && results.length

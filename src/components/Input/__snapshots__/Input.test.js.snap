@@ -2,8 +2,9 @@
 
 exports[`Input Render correctly 1`] = `
 <input
-  className="sc-bdVaJa kouTes"
+  className="sc-bdVaJa bcwAEK"
   onChange={[Function]}
+  onKeyUp={[Function]}
   placeholder="Digite aqui seu texto"
   type="text"
 />
