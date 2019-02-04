@@ -1,8 +1,9 @@
 const primaryTheme = {
     colors: {
-        primary: '#006633',
-        secondary: '#003366',
-        warning: "#ffc033",
+        primary: '#007bff',
+        success: '#28a745',
+        secondary: '#6c757d',
+        warning: "#ffc107",
         black: '#000000',
         white: '#FFFFFF',
         gray: '#cccccc',
@@ -30,9 +31,10 @@ const primaryTheme = {
         llg: '35px',
         xg: '40px',
         xxg: '50px',
-        gt: '75px',
+        gt: '80px',
         ggt: '100px',
         hg: '200px',
+        hhg: '400px',
         quarter: '25%',
         middle: '50%',
         full: '100%'

@@ -14,9 +14,6 @@ import Button from '../../components/Button/Button';
 /** Images */
 import image from '../../images/image';
 
-/** Types */
-import { FETCH_PEOPLE } from '../../redux/people/types';
-
 const Wrapper = styled.div`
     text-align: center;
 `
@@ -27,14 +24,6 @@ const Spacing = styled.div`
 
 class Home extends Component {
     state = {};
-
-    fetchPeople = () => {
-        const { props: { dispatch } } = this;
-
-        dispatch({
-            type: FETCH_PEOPLE.REQUEST
-        })
-    }
 
     render() {
         const { props: { peopleReducer } } = this;
@@ -53,6 +42,7 @@ class Home extends Component {
                     color="grayDark"
                     fontSize="hhg"
                     alignCenter={true}
+                    margin-top={true}
                 >
                     StarQuiz!
                 </Title>

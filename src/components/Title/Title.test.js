@@ -37,6 +37,7 @@ describe('Title', () => {
         expect(wrapper.find('#testTitle')).toHaveProp('color');
         expect(wrapper.find('#testTitle')).toHaveProp('alignCenter');
         expect(wrapper.find('#testTitle')).toHaveProp('fontSize');
+        expect(wrapper.find('#testTitle')).toHaveProp('marginTop');
     })
 
     it('Render correctly', () => {

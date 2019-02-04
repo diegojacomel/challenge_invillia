@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input Render correctly 1`] = `
+<input
+  className="sc-bdVaJa kouTes"
+  onChange={[Function]}
+  placeholder="Digite aqui seu texto"
+  type="text"
+/>
+`;

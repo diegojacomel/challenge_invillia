@@ -11,7 +11,7 @@ import {
 
 function* fetchPeople(action) {
     try {
-        const response = yield call(PeopleService.getPeople);
+        const response = yield call(PeopleService.getPeople, action.page);
 
         if (response.status === 200) {
             yield put({ type: FETCH_PEOPLE.SUCCESS, people: response });

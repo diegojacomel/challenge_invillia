@@ -3,8 +3,8 @@ import Api from '../utils/api';
 
 /* Service */
 class PeopleService {
-    static getPeople() {
-        return Api.get(`people`);
+    static getPeople(page) {
+        return Api.get(`people${page ? `/?page=${page}` : ""}`);
     }
 }
 

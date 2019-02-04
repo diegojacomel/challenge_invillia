@@ -10,18 +10,18 @@ const HeaderStyle = styled.h1`
     color: ${props => props.theme.colors[props.color]};
     text-align: ${props => props.alignCenter ? "center" : "left"};
     font-size: ${props => props.theme.fontSize[props.fontSize]};
-    margin: ${props => props.theme.spacing.md} ${props => props.theme.spacing.none} ${props => props.theme.spacing.none};
+    margin: ${props => props.marginTop ? `${props.theme.spacing.md} ${props.theme.spacing.none} ${props.theme.spacing.none}` : "0"};
 `
 
-const Header = ({ children, color, alignCenter, fontSize }) => (
-    <HeaderStyle color={color} alignCenter={alignCenter} fontSize={fontSize}>
+const Header = ({ children, color, alignCenter, fontSize, marginTop }) => (
+    <HeaderStyle color={color} alignCenter={alignCenter} fontSize={fontSize} marginTop={marginTop}>
         {children}
     </HeaderStyle>
 )
 
-function Title({ children, color, alignCenter, fontSize }) {
+function Title({ children, color, alignCenter, fontSize, marginTop }) {
     return (
-        <Header color={color} alignCenter={alignCenter} fontSize={fontSize} id="testTitle">
+        <Header color={color} alignCenter={alignCenter} fontSize={fontSize} marginTop={marginTop} id="testTitle">
             {children}
         </Header>
     )
@@ -30,13 +30,15 @@ function Title({ children, color, alignCenter, fontSize }) {
 Title.propTypes = {
     color: PropTypes.string,
     alignCenter: PropTypes.bool,
-    fontSize: PropTypes.string
+    fontSize: PropTypes.string,
+    marginTop: PropTypes.bool
 }
 
 Title.defaultProps = {
     color: "primary",
     alignCenter: false,
-    fontSize: "lg"
+    fontSize: "lg",
+    marginTop: false
 }
 
 export default Title;
