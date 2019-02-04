@@ -19,7 +19,7 @@ class Timer extends Component {
 
         this.state = {
             time: {},
-            seconds: 10
+            seconds: 120
         };
         this.timer = 0;
         this.startTimer = this.startTimer.bind(this);
