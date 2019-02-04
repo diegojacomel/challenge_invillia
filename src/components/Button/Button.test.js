@@ -40,6 +40,7 @@ describe('Button', () => {
         expect(wrapper.find('#testButton')).toHaveProp('bold');
         expect(wrapper.find('#testButton')).toHaveProp('fontSize');
         expect(wrapper.find('#testButton')).toHaveProp('onClick');
+        expect(wrapper.find('#testButton')).toHaveProp('disabled');
     })
 
     it('Render correctly', () => {

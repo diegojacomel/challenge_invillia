@@ -15,17 +15,21 @@ const ButtonStyle = styled.button`
     border-radius: ${props => props.theme.rounded[props.rounded]};
     font-weight: ${props => props.bold ? "bold" : "normal"};
     font-size: ${props => props.theme.fontSize[props.fontSize]};
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
 `
 
-const ButtonElement = ({ children, color, padding, rounded, bold, fontSize, onClick }) => (
-    <ButtonStyle color={color} padding={padding} rounded={rounded} bold={bold} fontSize={fontSize} onClick={onClick}>
+const ButtonElement = ({ children, color, padding, rounded, bold, fontSize, onClick, disabled }) => (
+    <ButtonStyle color={color} padding={padding} rounded={rounded} bold={bold} fontSize={fontSize} onClick={onClick} disabled={disabled}>
         {children}
     </ButtonStyle>
 )
 
-function Button({ children, color, padding, rounded, bold, fontSize, onClick }) {
+function Button({ children, color, padding, rounded, bold, fontSize, onClick, disabled }) {
     return (
-        <ButtonElement color={color} padding={padding} rounded={rounded} bold={bold} fontSize={fontSize} onClick={onClick} id="testButton">
+        <ButtonElement color={color} padding={padding} rounded={rounded} bold={bold} fontSize={fontSize} onClick={onClick} disabled={disabled} id="testButton">
             {children}
         </ButtonElement>
     )
@@ -37,7 +41,8 @@ Button.propTypes = {
     rounded: PropTypes.string,
     bold: PropTypes.bool,
     fontSize: PropTypes.string,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    disabled: PropTypes.bool
 }
 
 Button.defaultProps = {
@@ -46,7 +51,8 @@ Button.defaultProps = {
     rounded: "md",
     bold: false,
     fontSize: "sm",
-    onClick: () => {}
+    onClick: () => {},
+    disabled: false
 }
 
 export default Button;

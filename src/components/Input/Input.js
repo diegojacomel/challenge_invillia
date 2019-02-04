@@ -8,7 +8,7 @@ const FieldStyle = styled.input`
     border-radius: ${props => props.theme.spacing.sm};
     background: ${props => props.theme.colors.white};
     padding: ${props => props.theme.doubleSpacing.lg};
-    margin-top: ${props => props.theme.spacing.sm};
+    margin-top: ${props => props.theme.spacing.xxs};
     width: calc(${props => props.theme.spacing.full} - ${props => props.theme.spacing.llg});
     outline: none;
     &:disabled {

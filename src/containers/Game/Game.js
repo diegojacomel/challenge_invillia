@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import Image from '../../components/Image/Image';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
+import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import CardWrapper from '../../components/Cards/CardsWrapper';
 import Card from '../../components/Cards/Card';
@@ -59,15 +60,21 @@ const ButtonWrapper = styled.div`
 `
 
 const ScoreWrapper = styled.div`
-    font-size: ${props => props.theme.fontSize.lg};
+    font-size: ${props => props.theme.fontSize.hg};
     font-weight: bold;
     text-align: center;
+    margin: ${props => props.theme.spacing.lg} ${props => props.theme.spacing.none} ${props => props.theme.spacing.lg};
 `
 
 const CustomLink = styled(Link)`
     display: block;
-    margin-top: ${props => props.theme.spacing.lg};
     text-align: center;
+`
+
+const Label = styled.label`
+    display: block;
+    width: ${props => props.theme.spacing.full};
+    font-size: ${props => props.theme.fontSize.xs};
 `
 
 class Game extends Component {
@@ -78,7 +85,9 @@ class Game extends Component {
         descriptionUsed: false,
         score: 0,
         modalScore: false,
-        textTyped: {}
+        textTyped: {},
+        listScore: {},
+        arrayScore: []
     }
 
     componentDidMount() {
@@ -187,6 +196,40 @@ class Game extends Component {
         }
     }
 
+    setPerson = (value, type) => {
+        const { state } = this;
+
+        if (type === "name") {
+            this.setState({
+                listScore: {
+                    ...state.listScore,
+                    [type]: value,
+                    score: state.score
+                }
+            })
+        } else if (type === "email") {
+            this.setState({
+                listScore: {
+                    ...state.listScore,
+                    [type]: value,
+                    score: state.score
+                }
+            })
+        }
+    }
+
+    registerPerson = () => {
+        const { state } = this;
+        let listRanking = window.localStorage.getItem('listRanking') ? JSON.parse(window.localStorage.getItem('listRanking')) : [];
+        const individualRanking = state.listScore;
+        
+        listRanking.push(individualRanking)
+
+        if (!!listRanking && listRanking.length) {
+            window.localStorage.setItem('listRanking', JSON.stringify(listRanking));
+        }
+    }
+
     render() {
         const { state, props: { peopleReducer } } = this;
         const results = peopleReducer && peopleReducer.people && peopleReducer.people.data && peopleReducer.people.data.results;
@@ -266,17 +309,47 @@ class Game extends Component {
                         }
                     </ModalWrapper>
                 </Modal>
-                <Modal open={state.modalScore} onClose={() => {}} center>
+                <Modal open={state.modalScore} onClose={() => {}} showCloseIcon={false} center>
                     <ModalWrapper>
-                        <Title>Quiz finalizado!</Title>
+                        <Title alignCenter>Quiz finalizado!</Title>
                         <ScoreWrapper>
                             {state.score} pontos
                         </ScoreWrapper>
-                        <CustomLink to="/">
-                            <Button color="primary" marginTop={true} padding="lg" onClick={() => this.resetStatus()}>
-                                Jogar novamente
-                            </Button>
-                        </CustomLink>
+                        <Paragraph>
+                            Preencha o form abaixo para salvar sua pontuação:
+                        </Paragraph>
+                        <Paragraph>
+                            <Label>
+                                Nome
+                            </Label>
+                            <Input 
+                                onChange={(e) => this.setPerson(e.target.value, "name")}
+                                type="text"
+                                placeholder="Digite seu nome"
+                            />
+                        </Paragraph>
+                        <Paragraph>
+                            <Label>
+                                E-mail
+                            </Label>
+                            <Input
+                                onChange={(e) => this.setPerson(e.target.value, "email")}
+                                type="email"
+                                placeholder="Digite seu e-mail"
+                            />
+                        </Paragraph>
+                        <Paragraph style={{ display: "flex", justifyContent: "space-between", marginTop: "30px" }}>
+                            <CustomLink to="/">
+                                <Button color="warning" marginTop={true} padding="lg" onClick={() => this.resetStatus()}>
+                                    Jogar novamente
+                                </Button>
+                            </CustomLink>
+                            <CustomLink to="/ranking">
+                                <Button disabled={!state.listScore.email || !state.listScore.name} onClick={() => this.registerPerson()}>
+                                    Salvar
+                                </Button>
+                            </CustomLink>
+                        </Paragraph>
                     </ModalWrapper>
                 </Modal>
             </GameStyle>
