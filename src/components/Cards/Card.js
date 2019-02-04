@@ -21,8 +21,8 @@ const CardStyle = styled.div`
     } 
 `
 
-const CardElement = ({ children }) => (
-    <CardStyle>
+const CardElement = ({ children, image, inputId, showDescription, onChange, arrayDisable, onKeyUp }) => (
+    <CardStyle image={image} inputId={inputId} showDescription={showDescription} onChange={onChange} arrayDisable={arrayDisable} onKeyUp={onKeyUp}>
         {children}
     </CardStyle>
 )
@@ -36,7 +36,7 @@ const ButtonWrapper = styled.div`
     }
 `
 
-function Card({ image, typedName, inputId, showDescription, onChange }) {
+function Card({ image, inputId, showDescription, onChange, arrayDisable, onKeyUp }) {
     const [showInput, setShowInput] = useState(false);
 
     const onShowInput = () => {
@@ -50,9 +50,9 @@ function Card({ image, typedName, inputId, showDescription, onChange }) {
                 <Button onClick={() => onShowInput()}>?</Button>
                 <Button onClick={showDescription}>...</Button>
             </ButtonWrapper>
-            {showInput
+            {!!showInput
                 ?
-                <Input value={typedName} onChange={onChange} placeholder="Digite o nome do personagem" id={inputId} />
+                <Input onChange={onChange} placeholder="Digite o nome do personagem" id={inputId} disabled={!!arrayDisable[inputId]} onKeyUp={onKeyUp} />
                 :
                 null
             }
@@ -62,7 +62,6 @@ function Card({ image, typedName, inputId, showDescription, onChange }) {
 
 Card.propTypes = {
     image: PropTypes.string,
-    typedName: PropTypes.string,
     inputId: PropTypes.number,
     showDescription: PropTypes.func,
     onChange: PropTypes.func
@@ -70,7 +69,6 @@ Card.propTypes = {
 
 Card.defaultProps = {
     image: "#",
-    typedName: "",
     showDescription: () => { },
     onChange: () => { }
 }

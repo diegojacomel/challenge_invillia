@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Modal from 'react-responsive-modal';
+import { Link } from 'react-router-dom';
 
 /** Components */
 import Image from '../../components/Image/Image';
@@ -52,19 +53,36 @@ const Paragraph = styled.p`
 
 const ButtonWrapper = styled.div`
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: ${props => props.theme.spacing.lg};
+`
+
+const ScoreWrapper = styled.div`
+    font-size: ${props => props.theme.fontSize.lg};
+    font-weight: bold;
+    text-align: center;
+`
+
+const CustomLink = styled(Link)`
+    display: block;
+    margin-top: ${props => props.theme.spacing.lg};
+    text-align: center;
 `
 
 class Game extends Component {
     state = {
         openModal: false,
-        currentPage: 0
+        currentPage: 0,
+        disableInput: [],
+        descriptionUsed: false,
+        score: 0,
+        modalScore: false,
+        textTyped: {}
     }
 
     componentDidMount() {
-        this.fetchPeople()
+        this.fetchPeople();
     }
 
     fetchPeople = () => {
@@ -99,21 +117,73 @@ class Game extends Component {
         })
     }
 
-    handleChange = (id, value) => {
+    handleKeyUp = (id, value, e) => {
+        const { state, props: { dispatch } } = this;
+
+        if (+e.target.id === +id && e.keyCode === 13) {
+            document.getElementById(id).disabled = true;
+
+            this.setState({
+                descriptionUsed: false
+            }, () => {
+                dispatch({
+                    type: TYPING_NAME.SUCCESS,
+                    id,
+                    value,
+                    descriptionUsed: state.descriptionUsed
+                })
+            })
+        }
+    }
+
+    resetStatus = () => {
         const { props: { dispatch } } = this;
 
         dispatch({
-            type: TYPING_NAME.SUCCESS,
-            id,
-            value
+            type: TYPING_NAME.RESET,
         })
     }
 
     onShowDescription = (person) => {
         this.setState({
             openModal: true,
+            descriptionUsed: true,
             person
         })
+    }
+
+    sumScore = (results) => {
+        const { state, props: { typedReducer } } = this;
+        const typedReduc = typedReducer.typed;
+        let arr = [];
+        let score = 0;
+
+        if (results && results.length) {
+            results.forEach(person => {
+                const correct = typedReduc.filter(x => x.value.toLowerCase() === person.name.toLowerCase())[0];
+
+                arr.push(correct)
+            })
+        }
+        
+        if (arr && arr.length) {
+            arr.forEach(right => {
+                if (!!right && !!right.value) {
+                    if (!!right.descriptionUsed) {
+                        score += 5
+                    } else {
+                        score += 10
+                    }
+                }
+            })
+        }
+
+        if (!state.modalScore) {
+            this.setState({
+                score,
+                modalScore: true
+            })
+        }
     }
 
     render() {
@@ -129,7 +199,7 @@ class Game extends Component {
                             StarQuiz!
                         </Title>
                     </TitleWrapper>
-                    <Timer />
+                    <Timer endTime={() => this.sumScore(results)} />
                 </HeaderWrapper>
                 <CardWrapper>
                     {!!results && results.length
@@ -137,7 +207,14 @@ class Game extends Component {
                         results.map((person, index) => {
                             const characterId = person.url.split('/')
                             return (
-                                <Card key={index} image={image[`img${characterId[5]}`]} inputId={+characterId[5]} typedName="name" showDescription={() => this.onShowDescription(person)} onChange={(e) => this.handleChange(characterId[5], e.target.value)} />
+                                <Card
+                                    key={index}
+                                    image={image[`img${characterId[5]}`]}
+                                    inputId={+characterId[5]}
+                                    showDescription={() => this.onShowDescription(person)}
+                                    arrayDisable={state.disableInput}
+                                    onKeyUp={(e) => this.handleKeyUp(characterId[5], e.target.value, e)}
+                                />
                             )
                         })
                         :
@@ -149,13 +226,13 @@ class Game extends Component {
                         ?
                         <Button onClick={() => this.fetchLessPeople()}>Anterior</Button>
                         :
-                        null
+                        <div></div>
                     }
                     {state.currentPage < 9
                         ?
                         <Button onClick={() => this.fetchPeople()}>Próximo</Button>
                         :
-                        null
+                        <div></div>
                     }
                 </ButtonWrapper>
                 <Modal open={state.openModal} onClose={this.onCloseModal} center>
@@ -182,13 +259,23 @@ class Game extends Component {
                                 <Paragraph>
                                     Birth year: <strong>{state.person.birth_year}</strong>
                                 </Paragraph>
-                                <Paragraph>
-                                    Movies:
-                                </Paragraph>
                             </Description>
                             :
                             null
                         }
+                    </ModalWrapper>
+                </Modal>
+                <Modal open={state.modalScore} onClose={() => {}} center>
+                    <ModalWrapper>
+                        <Title>Quiz finalizado!</Title>
+                        <ScoreWrapper>
+                            {state.score} pontos
+                        </ScoreWrapper>
+                        <CustomLink to="/">
+                            <Button color="primary" marginTop={true} padding="lg" onClick={() => this.resetStatus()}>
+                                Jogar novamente
+                            </Button>
+                        </CustomLink>
                     </ModalWrapper>
                 </Modal>
             </GameStyle>
@@ -198,7 +285,8 @@ class Game extends Component {
 
 function mapStateToProps(state) {
     return {
-        peopleReducer: state.peopleReducer
+        peopleReducer: state.peopleReducer,
+        typedReducer: state.typedReducer
     }
 }
 

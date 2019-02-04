@@ -5,7 +5,6 @@ import styled from 'styled-components';
 const TimerStyle = styled.div`
     font-weight: bold;
     font-size: ${props => props.theme.fontSize.hg};
-    color
 `
 
 const TimerElement = ({ children }) => (
@@ -20,7 +19,7 @@ class Timer extends Component {
 
         this.state = {
             time: {},
-            seconds: 120
+            seconds: 10
         };
         this.timer = 0;
         this.startTimer = this.startTimer.bind(this);
@@ -35,10 +34,10 @@ class Timer extends Component {
     }
 
     componentDidUpdate() {
-        const { state } = this;
+        const { state, props: { endTime } } = this;
 
         if (+state.seconds === 0) {
-            console.log('acabou')
+            endTime()
         }
     }
 
@@ -81,15 +80,16 @@ class Timer extends Component {
 
         // Check if we're at zero.
         if (seconds === 0) {
+
             clearInterval(this.timer);
         }
     }
 
     render() {
-        const { state } = this;
+        const { state, props: { endTime } } = this;
 
         return (
-            <TimerElement id="testTimer">
+            <TimerElement id="testTimer" endTime={endTime}>
                 {state.time.m}:{state.time.s}
             </TimerElement>
         );

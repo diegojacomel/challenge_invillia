@@ -3,7 +3,7 @@ import {
 } from './types';
 
 const INITIAL_STATE = {
-    typed: {}
+    typed: []
 }
 
 const typedReducer = (state = INITIAL_STATE, action) => {
@@ -11,10 +11,20 @@ const typedReducer = (state = INITIAL_STATE, action) => {
         case TYPING_NAME.SUCCESS:
             return {
                 ...state,
-                typed: {
+                typed: [
                     ...state.typed,
-                    [action.id]: action.value
-                }
+                    {
+                        value: action.value,
+                        descriptionUsed: action.descriptionUsed,
+                        id: action.id
+                    }
+                ]
+            }
+
+        case TYPING_NAME.RESET:
+            return {
+                ...state,
+                typed: []
             }
 
         default:

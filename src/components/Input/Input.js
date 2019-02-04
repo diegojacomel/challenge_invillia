@@ -11,15 +11,28 @@ const FieldStyle = styled.input`
     margin-top: ${props => props.theme.spacing.sm};
     width: calc(${props => props.theme.spacing.full} - ${props => props.theme.spacing.llg});
     outline: none;
+    &:disabled {
+        background: ${props => props.theme.colors.gray};
+        cursor: not-allowed;
+    }
 `
 
-const InputElement = ({ onChange, type, placeholder, id }) => (
-    <FieldStyle onChange={onChange} type={type} placeholder={placeholder} id={id} />
+const InputElement = ({ onChange, type, placeholder, id, disabled, onKeyUp }) => (
+    <FieldStyle onChange={onChange} type={type} placeholder={placeholder} id={id} disabled={disabled} onKeyUp={onKeyUp} />
 )
 
-function Input({ onChange, type, placeholder, id, ...rest }) {
+function Input({ onChange, type, placeholder, id, disabled, onKeyUp, ...rest }) {
     return (
-        <InputElement onChange={onChange} type={type} placeholder={placeholder} {...rest} className="testInput" id={id} />
+        <InputElement
+            onChange={onChange}
+            type={type}
+            placeholder={placeholder}
+            className="testInput"
+            disabled={disabled}
+            id={id}
+            onKeyUp={onKeyUp}
+            {...rest}
+        />
     )
 }
 
@@ -27,13 +40,15 @@ Input.defaultProps = {
     onChange: () => { },
     type: 'text',
     placeholder: 'Digite aqui seu texto',
+    onKeyUp: () => { }
 }
 
 Input.propTypes = {
     onChange: PropTypes.func,
     type: PropTypes.string,
     placeholder: PropTypes.string,
-    id: PropTypes.number
+    id: PropTypes.number,
+    onKeyUp: PropTypes.func
 }
 
 export default Input;
